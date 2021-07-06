@@ -2,6 +2,7 @@ const canvas = document.querySelector(".jsCanvas");
 const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
 const range = document.querySelector(".jsRange");
+const mode = document.querySelector(".jsMode")
 
 canvas.width = document.getElementsByClassName("jsCanvas")[0].offsetWidth;
 canvas.height = document.getElementsByClassName("jsCanvas")[0].offsetHeight;
@@ -10,6 +11,7 @@ ctx.strokeStyle = "black"
 ctx.lineWidth = 2.5
 
 let painting = false;
+let filling = false;
 
 function stopPainting() {
   painting = false;
@@ -37,11 +39,18 @@ function onMouseUp(event) {
 function onMouseLeave(event) {
   stopPainting();
 }
+function onMouseClick(){
+  if (filling === true) {
+  ctx.fillStyle = ctx.strokeStyle
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+}
+}
 if (canvas) {
   canvas.addEventListener("mousemove", onMouseMove);
   canvas.addEventListener("mousedown", onMouseDown);
-  canvas.addEventListener("mouseup", onMouseUp)
+  canvas.addEventListener("mouseup", onMouseUp);
   canvas.addEventListener("mouseleave", onMouseLeave);
+  canvas.addEventListener("click", onMouseClick);
 }
 
 
@@ -59,4 +68,18 @@ function changeSize(event) {
 
 if(range){
   range.addEventListener("input", changeSize)
+}
+
+function changeMode() {
+  if (filling === true) {
+    filling = false;
+    mode.innerText = "Fill"
+  } else {
+    filling = true;
+    mode.innerText = "Draw"
+  }
+}
+
+if(mode){
+  mode.addEventListener("click", changeMode)
 }
