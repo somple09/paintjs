@@ -1,13 +1,14 @@
 const canvas = document.querySelector(".jsCanvas");
 const ctx = canvas.getContext("2d");
-const colors = document.getElementsByClassName("jsColor")
+const colors = document.getElementsByClassName("jsColor");
+const range = document.querySelector(".jsRange");
 
 canvas.width = document.getElementsByClassName("jsCanvas")[0].offsetWidth;
 canvas.height = document.getElementsByClassName("jsCanvas")[0].offsetHeight;
 
-
 ctx.strokeStyle = "black"
 ctx.lineWidth = 2.5
+
 let painting = false;
 
 function stopPainting() {
@@ -43,7 +44,6 @@ if (canvas) {
   canvas.addEventListener("mouseleave", onMouseLeave);
 }
 
-console.log(Array.from(colors))
 
 function changeColor(event) {
   ctx.strokeStyle = event.target.style.backgroundColor;
@@ -51,3 +51,12 @@ function changeColor(event) {
 
 Array.from(colors).forEach(color => 
   color.addEventListener("click", changeColor))
+
+
+function changeSize(event) {
+  ctx.lineWidth = event.target.value
+}
+
+if(range){
+  range.addEventListener("input", changeSize)
+}
