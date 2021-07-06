@@ -2,13 +2,16 @@ const canvas = document.querySelector(".jsCanvas");
 const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
 const range = document.querySelector(".jsRange");
-const mode = document.querySelector(".jsMode")
+const mode = document.querySelector(".jsMode");
+const save = document.querySelector(".jsSave")
 
 canvas.width = document.getElementsByClassName("jsCanvas")[0].offsetWidth;
 canvas.height = document.getElementsByClassName("jsCanvas")[0].offsetHeight;
 
-ctx.strokeStyle = "black"
-ctx.lineWidth = 2.5
+ctx.fillStyle = "white";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.strokeStyle = "black";
+ctx.lineWidth = 2.5;
 
 let painting = false;
 let filling = false;
@@ -45,12 +48,18 @@ function onMouseClick(){
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 }
 }
+
+function handleCM(event) {
+  event.preventDefault();
+}
+
 if (canvas) {
   canvas.addEventListener("mousemove", onMouseMove);
   canvas.addEventListener("mousedown", onMouseDown);
   canvas.addEventListener("mouseup", onMouseUp);
   canvas.addEventListener("mouseleave", onMouseLeave);
   canvas.addEventListener("click", onMouseClick);
+  canvas.addEventListener("contextmenu", handleCM);
 }
 
 
@@ -82,4 +91,16 @@ function changeMode() {
 
 if(mode){
   mode.addEventListener("click", changeMode)
+}
+
+function saveImage(){
+  const image = canvas.toDataURL();
+  const link = document.createElement("a");
+  link.href = image;
+  link.download = "PaintJS";
+  link.click()
+}
+
+if(save){
+  save.addEventListener("click", saveImage)
 }
